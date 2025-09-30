@@ -12,7 +12,7 @@ function onPasswordInput(e) {
 </script>
 
 <template>
-  <h2>Sign Up</h2>
+  <h2>Login</h2>
   <form>
     <label for="username">Username: </label> <br>
     <input type="text" id="username" v-model="username">
@@ -20,7 +20,7 @@ function onPasswordInput(e) {
     <label for="password">Password: </label> <br>
     <input type="text" id="password" v-model="password">
     <br>
-    <button>Login</button>
+    <button>Submit</button>
   </form>
 
   <p>{{ username }} {{ password }}</p>

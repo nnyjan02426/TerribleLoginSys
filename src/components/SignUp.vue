@@ -20,7 +20,7 @@ function onPasswordInput(e) {
     <label for="password">Password: </label> <br>
     <input type="text" id="password" v-model="password">
     <br>
-    <button>Sign Up</button>
+    <button>Submit</button>
   </form>
 
   <p>{{ username }} {{ password }}</p>
