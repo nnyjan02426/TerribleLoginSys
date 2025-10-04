@@ -23,7 +23,7 @@ function onPasswordInput(e) {
     <button>Submit</button>
   </form>
 
-  <p>{{ username }} {{ password }}</p>
+  <!-- <p>{{ username }} {{ password }}</p> -->
 </template>
 
 <style scoped></style>
