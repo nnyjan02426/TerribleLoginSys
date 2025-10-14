@@ -1,27 +1,35 @@
-import { MongoClient, ServerApiVersion } from 'mongodb';
-const db_uri = process.env.DB_URI
+import express from "express";
+import cors from "cors";
+import { connectDB } from "./db.js";
+import authRouter from "./routes/userAuth.js";
 
-// Create a MongoClient with a MongoClientOptions object to set the Stable API version
-const client = new MongoClient(db_uri, {
-  serverApi: {
-    version: ServerApiVersion.v1,
-    strict: true,
-    deprecationErrors: true,
-  }
+const port = 3000;
+const app = express();
+
+app.get('/api/ping', (_req, res) => res.json({ ok: true }));
+app.use((req, _res, next) => {
+  console.log("REQ", req.method, req.path);
+  next();
 });
 
-async function run() {
-  try {
-    await client.connect();
 
-    const database = client.db("terrible_login_dev");
-    const accounts = database.collection("accounts");
-    await accounts.createIndex({ username: 1 }, { unique: true });
-    await accounts.createIndex({ password: 1 }, { unique: true });
+app.use(cors({
+  origin: "http://localhost:5173",
+  credentials: true
+}));
 
-    console.log("Pinged your deployment. You successfully connected to MongoDB!");
-  } finally {
-    await client.close();
-  }
-}
-run().catch(console.dir);
+app.use(express.json());
+app.use("/api/auth", authRouter);
+
+app.get("/api/user", (req, res) => {
+  res.json({ me: req.user });
+})
+
+app.get("/", (_req, res) => res.send("API OK"));
+
+connectDB().then(() => {
+  app.listen(port, () => console.log(`Server running on http://localhost:${port}`));
+}).catch(err => {
+  console.error(`DB connect failed: ${err}`);
+  process.exit(1);
+});
