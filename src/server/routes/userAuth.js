@@ -43,7 +43,7 @@ router.post("/login", async (req, res) => {
       return res.status(401).json({ error: "This user doesn't exist" });
     }
     else if (user.username != username) {
-      return res.status(401).json({ error: `You've entered ${username}'s password, are you perhaps ${username}?` })
+      return res.status(401).json({ error: `You've entered ${user.username}'s password, are you perhaps ${user.username}?` })
     }
 
     const { password: _, ...safeUser } = user.toObject();
